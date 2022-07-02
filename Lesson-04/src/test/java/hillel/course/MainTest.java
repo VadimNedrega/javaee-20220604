@@ -6,6 +6,7 @@ import hillel.course.spring_data_jpa.entity.Town;
 import hillel.course.spring_data_jpa.repository.CountryRepository;
 import hillel.course.spring_data_jpa.repository.RegionRepository;
 import hillel.course.spring_data_jpa.repository.TownRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,14 @@ import java.util.logging.Logger;
 @SpringBootTest
 class MainTest {
     private static final Logger LOG = Logger.getLogger(MainTest.class.getName());
+
+    @AfterEach
+    private void cleanDB() {
+        townRepository.deleteAll();
+        regionRepository.deleteAll();
+        countryRepository.deleteAll();
+    }
+
     @Autowired
     private TownRepository townRepository;
     @Autowired
@@ -36,8 +45,7 @@ class MainTest {
         Country country = new Country("Burgundia");
         Region region = new Region("New region");
         Town town1 = new Town("London", "+13546");
-        Town town2 = new Town("Blackpool", "+3166");
-        Set<Town> towns = Set.of(town1, town2);
+        Set<Town> towns = Set.of(town1);
 
         townRepository.saveAll(towns);
 
@@ -48,8 +56,6 @@ class MainTest {
         countryRepository.save(country);
         country.setRegions(regions);
 
-        townRepository.findTownByName("Blackpool");
-
         LOG.info("Countries: " + countryRepository.findAll());
         LOG.info("Regions: " + regionRepository.findAll());
         LOG.info("Towns: " + townRepository.findAll());
@@ -57,7 +63,7 @@ class MainTest {
         LOG.info("Region by ID 1: " + regionRepository.findRegionByRegionId(1));
         LOG.info("Town by ID 1: " + townRepository.findTownByTownId(1));
 
-        Assertions.assertEquals("Blackpool", townRepository.findTownByName("Blackpool").get(0).getName());
+        Assertions.assertEquals("London", townRepository.findTownByName("London").get(0).getName());
         Assertions.assertEquals("New region", regionRepository.findRegionByName("New region").get(0).getName());
         Assertions.assertEquals("Burgundia", countryRepository.findCountryByName("Burgundia").get(0).getName());
     }

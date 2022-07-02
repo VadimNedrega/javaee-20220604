@@ -65,42 +65,15 @@ public class WorkWithConsole {
         else if (object instanceof Region) saveRegion((Region) object);
         else saveTown((Town) object);
 
-        if (saveAnotherObject()) {
-            saveObject();
-        } else {
-            countryRepository.saveAll(countries);
-            regionRepository.saveAll(regions);
-            townRepository.saveAll(towns);
-        }
-    }
-
-    public boolean saveAnotherObject() throws IOException {
-        System.out.println("Do you want to save another object? \n 1. Yes \n 2. No");
-        String str = new BufferedReader(new InputStreamReader(System.in)).readLine().toUpperCase();
-        try {
-            if (Integer.parseInt(str) == 1) {
-                return true;
-            } else if (Integer.parseInt(str) == 2) {
-                System.out.println("All objects were saved");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            System.err.println("ERROR! Please enter correct variant from list below");
-            saveAnotherObject();
-        }
-        return false;
+        countryRepository.saveAll(countries);
+        regionRepository.saveAll(regions);
+        townRepository.saveAll(towns);
     }
 
     public void saveCountry(Country country) throws IOException {
         System.out.println("Please enter county name");
         String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        for (Country name : countries) {
-            if (name.getName().equals(str)) {
-                System.err.println("ERROR! This country has already added in DB");
-                saveCountry(new Country());
-            }
-        }
         country.setName(str);
         countries.add(country);
         country.setRegions(regions);
@@ -110,14 +83,6 @@ public class WorkWithConsole {
         System.out.println("Please enter region name");
         String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
         region.setName(str);
-
-
-        for (Region regionName : regions) {
-            if (regionName.getName().equals(str)) {
-                System.err.println("ERROR! This region has already added in DB");
-                saveRegion(new Region());
-            }
-        }
 
         Country newCountry = new Country();
         saveCountry(newCountry);
@@ -140,95 +105,67 @@ public class WorkWithConsole {
         saveRegion(region);
         town.setRegion(region);
 
-        for (Town name : towns) {
-            if (name.getName().equals(str)) {
-                System.err.println("ERROR! This town has already added in DB");
-                saveTown(new Town());
-            }
-        }
-
         town.setName(str);
         towns.add(town);
     }
 
     public Object getObjectById() throws IOException {
-        System.out.println("""
-                Please enter number of Object you want to find in DB by id:
-                 1. Country
-                 2. Region
-                 3. Town""");
-        String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        int number;
+        if (!towns.isEmpty()) {
+            System.out.println("Please enter id town to find");
+            String id = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            int identity = Integer.parseInt(id);
 
-        try {
-            number = Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-            System.err.println("ERROR! Please enter correct variant from list below");
-            return getObjectById();
+            log.info("Chosen object: " + townRepository.findTownByTownId(identity));
+            System.out.println("Chosen object: " + townRepository.findTownByTownId(identity));
+            return townRepository.findTownByTownId(identity);
         }
-        if (1 > number || number > 3) {
-            System.err.println("ERROR! Please enter correct variant from list below");
-        }
+        if (!regions.isEmpty()) {
+            System.out.println("Please enter id region to find");
+            String id = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            int identity = Integer.parseInt(id);
 
-        System.out.println("Please enter id object to find");
-        String id = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        int identity = Integer.parseInt(id);
-
-        switch (number) {
-            case 1 -> {
-                log.info("Chosen object: " + countryRepository.findCountryByCountryId(identity));
-                return countryRepository.findCountryByCountryId(number);
-            }
-            case 2 -> {
-                log.info("Chosen object: " + regionRepository.findRegionByRegionId(identity));
-                return regionRepository.findRegionByRegionId(number);
-            }
-            case 3 -> {
-                log.info("Chosen object: " + townRepository.findTownByTownId(identity));
-                return townRepository.findTownByTownId(identity);
-            }
-            default -> throw new ChooseObjectException("You choose wrong id of object");
+            log.info("Chosen object: " + regionRepository.findRegionByRegionId(identity));
+            System.out.println("Chosen object: " + regionRepository.findRegionByRegionId(identity));
+            return regionRepository.findRegionByRegionId(identity);
         }
+        if (!countries.isEmpty()) {
+            System.out.println("Please enter id country to find");
+            String id = new BufferedReader(new InputStreamReader(System.in)).readLine();
+            int identity = Integer.parseInt(id);
+
+            log.info("Chosen object: " + countryRepository.findCountryByCountryId(identity));
+            System.out.println("Chosen object: " + countryRepository.findCountryByCountryId(identity));
+            return countryRepository.findCountryByCountryId(identity);
+        }
+        return new ChooseObjectException("You choose wrong name of object");
     }
 
     public Object getObjectByName() throws IOException {
-        System.out.println("""
-                Please enter number of Object you want to find in DB by name:
-                 1. Country
-                 2. Region
-                 3. Town""");
-        String str = new BufferedReader(new InputStreamReader(System.in)).readLine();
-        int a;
+        if (!towns.isEmpty()) {
+            System.out.println("Please enter town name to find");
+            String name = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
-        System.out.println("Please enter name of object to find");
-        String name = new BufferedReader(new InputStreamReader(System.in)).readLine();
-
-        try {
-            a = Integer.parseInt(str);
-            if (1 > a || a > 3) {
-                System.err.println("ERROR! Please enter correct variant from list below");
-            }
-            switch (a) {
-                case 1 -> {
-                    log.info("Chosen object: " + countryRepository.findCountryByName(name));
-                    return countryRepository.findCountryByName(name);
-                }
-                case 2 -> {
-                    log.info("Chosen object: " + regionRepository.findRegionByName(name));
-                    return regionRepository.findRegionByName(name);
-                }
-                case 3 -> {
-                    log.info("Chosen object: " + townRepository.findTownByName(name));
-                    return townRepository.findTownByName(name);
-                }
-                default -> throw new ChooseObjectException("You choose wrong name of object");
-            }
-        } catch (NumberFormatException e) {
-            System.err.println("ERROR! Please enter correct variant from list below");
-            return getObjectById();
+            log.info("Chosen object: " + townRepository.findTownByName(name));
+            System.out.println("Chosen object: " + townRepository.findTownByName(name));
+            return townRepository.findTownByName(name);
         }
+        if (!regions.isEmpty()) {
+            System.out.println("Please enter region name to find");
+            String name = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
+            log.info("Chosen object: " + regionRepository.findRegionByName(name));
+            System.out.println("Chosen object: " + regionRepository.findRegionByName(name));
+            return regionRepository.findRegionByName(name);
+        }
+        if (!countries.isEmpty()) {
+            System.out.println("Please enter country name to find");
+            String name = new BufferedReader(new InputStreamReader(System.in)).readLine();
 
+            log.info("Chosen object: " + countryRepository.findCountryByName(name));
+            System.out.println("Chosen object: " + countryRepository.findCountryByName(name));
+            return countryRepository.findCountryByName(name);
+        }
+        return new ChooseObjectException("You choose wrong name of object");
     }
 
 }
