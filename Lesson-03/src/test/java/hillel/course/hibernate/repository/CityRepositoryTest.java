@@ -2,8 +2,8 @@ package hillel.course.hibernate.repository;
 
 import hillel.course.hibernate.db.ClearTableCities;
 import hillel.course.hibernate.entity.City;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -15,14 +15,13 @@ public class CityRepositoryTest {
     City city3 = new City("Zadripinsk");
     List<City> cities = repository.getCities();
 
-    @Before
+    @After
     public void setUp() {
         ClearTableCities.clearTableInDB();
     }
 
     @Test
     public void saveCityToDB() {
-        System.out.println("Task 1.b from homework_03:\n");
         repository.saveCityToRepo(city1);
         repository.saveCityToRepo(city2);
         repository.saveCityToRepo(city3);
@@ -30,17 +29,11 @@ public class CityRepositoryTest {
         cities = repository.getCities();
 
         Assert.assertEquals(3, cities.size());
-        Assert.assertEquals("Panama", cities.get(0).getName());
-        Assert.assertEquals("Tmutarakan", cities.get(1).getName());
-        Assert.assertEquals("Zadripinsk", cities.get(2).getName());
     }
 
     @Test
     public void getCityById() {
-        System.out.println("Task 1.c from homework_03:\n");
         repository.saveCityToRepo(city1);
-        repository.saveCityToRepo(city2);
-        repository.saveCityToRepo(city3);
 
         cities = repository.getCities();
 
@@ -60,14 +53,11 @@ public class CityRepositoryTest {
     @Test
     public void deleteCityByName() {
         repository.saveCityToRepo(city1);
-        repository.saveCityToRepo(city2);
-        repository.saveCityToRepo(city3);
-        repository.deleteCityByName("Panama");
-
         cities = repository.getCities();
-
-        Assert.assertEquals(2, cities.size());
-        Assert.assertNotEquals(cities.get(0).getName(), "Panama");
+        Assert.assertEquals(1, cities.size());
+        repository.deleteCityByName("Panama");
+        cities = repository.getCities();
+        Assert.assertEquals(0, cities.size());
     }
 
     @Test
@@ -84,11 +74,8 @@ public class CityRepositoryTest {
         repository.saveCityToRepo(city3);
 
         cities = repository.getCities();
-        System.out.println("Task 1.a from homework_03:\n" + cities);
 
-        Assert.assertEquals("Panama", cities.get(0).getName());
-        Assert.assertEquals("Tmutarakan", cities.get(1).getName());
-        Assert.assertEquals("Zadripinsk", cities.get(2).getName());
+        Assert.assertEquals(3, cities.size());
     }
 
     @Test
