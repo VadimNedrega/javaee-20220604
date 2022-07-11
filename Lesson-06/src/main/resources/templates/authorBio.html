@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html">
+    <p th:text="'There is biography page for author ' + ${model_name} + ' ' + ${model_surname}"/>
+    <br><br>
+</head>
+<body>
+<p th:text="${model_name} + ' biography is: ' + ${model_bio} + '!'"/>
+</body>
+</html>
