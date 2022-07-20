@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<body>
+<h2>Here you can see all admins:</h2>
+<table>
+    <tr>
+        <th>Admin name</th>
+        <th>Is admin</th>
+    </tr>
+    <tr th:each="admin : ${admins}">
+        <td><span th:text="${admin.username}"> Admin name </span></td>
+        <td><span th:text="${admin.admin}"> Is admin </span></td>
+    </tr>
+</table>
+
+<div class="container">
+    <div class="starter-template">
+        <h1>Admin page (Spring Security protected)</h1>
+
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+        <form th:action="@{/logout}" method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+
+    </div>
+
+</div>
+
+<br><br>
+
+<form th:action="@{/}" method="post">
+    <div><input type="button" value="View all users" onclick="window.location.href = '/users'"/></div>
+</form>
+<!-- /.container -->
+
+</body>
+</html>

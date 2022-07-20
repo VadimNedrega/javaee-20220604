@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Spring Security Example </title>
+</head>
+<body>
+<h2>Hello, dear user! Long time no see:)</h2> <br>
+<h3>Please choose your role:</h3> <br>
+
+<form th:action="@{/}" method="post">
+    <div><input type="button" value="User" onclick="window.location.href = '/profile'"/></div>
+    <br><br>
+    <div><input type="button" value="Admin" onclick="window.location.href = '/admin'"/></div>
+</form>
+
+</body>
+</html>
