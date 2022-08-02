@@ -20,6 +20,7 @@
         <spring-security.version>5.7.1</spring-security.version>
         <jaxb.version>2.3.1</jaxb.version>
         <maven-plugin-surefire.version>3.0.0-M5</maven-plugin-surefire.version>
+        <maven-plugin-war.version>3.3.2</maven-plugin-war.version>
         <h2.version>2.1.212</h2.version>
         <spring-boot.version>2.7.1</spring-boot.version>
     </properties>
@@ -111,9 +112,21 @@
                     <version>${maven-plugin-surefire.version}</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-plugin-war.version}</version>
+                </plugin>
+                <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>${spring-boot.version}</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
