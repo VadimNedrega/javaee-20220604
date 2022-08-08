@@ -33,6 +33,7 @@
         <module>Lesson-05</module>
         <module>Lesson-06</module>
         <module>Lesson-07</module>
+        <module>Lesson-10</module>
     </modules>
 
     <dependencyManagement>
@@ -94,11 +95,19 @@
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>${spring-boot.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework.security</groupId>
                 <artifactId>spring-security-test</artifactId>
                 <version>${spring-security.version}</version>
                 <scope>test</scope>
+            </dependency>
+
+            <!-- Spring AOP -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
