@@ -22,6 +22,8 @@
         <maven-plugin-surefire.version>3.0.0-M5</maven-plugin-surefire.version>
         <maven-plugin-war.version>3.3.2</maven-plugin-war.version>
         <h2.version>2.1.212</h2.version>
+        <spring-boot-kafka.version>2.9.0</spring-boot-kafka.version>
+        <slf4j.version>1.7.36</slf4j.version>
         <spring-boot.version>2.7.1</spring-boot.version>
     </properties>
 
@@ -34,6 +36,7 @@
         <module>Lesson-06</module>
         <module>Lesson-07</module>
         <module>Lesson-10</module>
+        <module>Lesson-11</module>
     </modules>
 
     <dependencyManagement>
@@ -108,6 +111,25 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-aop</artifactId>
                 <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.kafka</groupId>
+                <artifactId>spring-kafka</artifactId>
+                <version>${spring-boot-kafka.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
