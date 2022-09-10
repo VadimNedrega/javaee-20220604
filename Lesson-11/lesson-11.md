@@ -18,6 +18,8 @@
 4. Configuration -> Configuration
 5. API management -> API gateway
 
+docker-compose -f .\docker-compose-for-kafka.yml up
+
 ##### Patterns:
 
 1. Aggregator

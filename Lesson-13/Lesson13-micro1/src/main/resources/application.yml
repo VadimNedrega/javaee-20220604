@@ -1,0 +1,27 @@
+server:
+  port: 9098
+
+spring:
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: localhost:9092
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: hillel.course.*
+    bootstrap-servers: localhost:9092
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    database-platform: org.hibernate.dialect.PostgresPlusDialect
+#  datasource:
+#    url: "jdbc:postgresql://localhost:5432/kafka"
+#    username: postgres
+#    password: postgres
+#    driverClassName: org.postgresql.Driver
